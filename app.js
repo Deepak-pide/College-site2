@@ -1,4 +1,4 @@
-// ✅ 1) Replace with YOUR Supabase details:
+// 👉 Use your real Supabase project URL and anon key
 const SUPABASE_URL = 'https://tnxrbfyxbatpclbkjkgk.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRueHJiZnl4YmF0cGNsYmtqa2drIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE0NTM4OTgsImV4cCI6MjA2NzAyOTg5OH0._0NPdDkAtg2fnQCJSh0pPUxIOJnUJ-P3eNoWvTRgfp8';
 
@@ -7,7 +7,7 @@ const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const form = document.getElementById('student-form');
 const tableBody = document.querySelector('#students-table tbody');
 
-// ✅ 2) Add student to Supabase when form is submitted
+// ✅ Add student when form submitted
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -16,22 +16,23 @@ form.addEventListener('submit', async (e) => {
   const year = parseInt(document.getElementById('year').value);
 
   if (!name) {
-    alert('Name is required');
+    alert('Name is required!');
     return;
   }
 
-  const { error } = await supabase.from('students').insert([
-    { name, branch, year }
-  ]);
+  const { error } = await supabase
+    .from('students') // 👉 make sure your table name matches exactly
+    .insert([{ name, branch, year }]);
 
   if (error) {
     alert('Error: ' + error.message);
   } else {
     form.reset();
+    // No need to call loadStudents() manually — Realtime will handle it!
   }
 });
 
-// ✅ 3) Fetch students and display them
+// ✅ Load students and display
 async function loadStudents() {
   const { data, error } = await supabase
     .from('students')
@@ -43,7 +44,7 @@ async function loadStudents() {
     return;
   }
 
-  tableBody.innerHTML = ''; // Clear old rows
+  tableBody.innerHTML = '';
 
   data.forEach(({ name, branch, year }) => {
     const row = `<tr>
@@ -55,11 +56,11 @@ async function loadStudents() {
   });
 }
 
-// ✅ 4) Listen for Realtime changes — auto reload when anyone adds/updates/deletes
+// ✅ Realtime: listen for insert/update/delete & reload table
 supabase
   .channel('students_changes')
   .on('postgres_changes', { event: '*', schema: 'public', table: 'students' }, loadStudents)
   .subscribe();
 
-// ✅ 5) Load on page open
+// ✅ Initial load
 loadStudents();
