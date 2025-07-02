@@ -62,5 +62,9 @@ supabase
   .on('postgres_changes', { event: '*', schema: 'public', table: 'students' }, loadStudents)
   .subscribe();
 
+console.log(data);
+console.log(error);
+
+
 // ✅ Initial load
 loadStudents();
