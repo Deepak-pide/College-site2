@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
   <title>Engineering Community</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -9,7 +10,7 @@
 
   <h2>Add Student</h2>
   <form id="student-form">
-    <input type="text" id="name" placeholder="Name" required>
+    <input type="text" id="name" placeholder="Name" required />
     <select id="branch">
       <option value="CSE">CSE</option>
       <option value="ECE">ECE</option>
@@ -21,7 +22,7 @@
       <option value="3">3rd Year</option>
       <option value="4">4th Year</option>
     </select>
-    <button type="submit">Add</button>
+    <button type="submit">Add Student</button>
   </form>
 
   <h2>Student List</h2>
@@ -34,11 +35,13 @@
       </tr>
     </thead>
     <tbody>
-      <!-- rows will be added here -->
+      <!-- Data rows go here -->
     </tbody>
   </table>
 
+  <!-- Supabase library -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <!-- Your JS code -->
   <script src="app.js"></script>
 </body>
 </html>
